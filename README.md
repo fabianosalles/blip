@@ -39,6 +39,6 @@ Some screenshots of the original game running on Windows 98 (or maybe Window 95)
         flex-wrap: wrap;        
     }
     img {         
-        width: 30rem;        
+        width: 15rem;        
     }
 </style>
