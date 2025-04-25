@@ -1,0 +1,34 @@
+Blip Extra Levels
+--------------------------
+
+These are some extra level files that I and other users created for Blip. 
+You are encouraged to send your own designed files, I'll include them in the BXL.
+To download the latest versions of Blip and the BXL go to my homepage on the Intenet.
+
+Contact me at: 
+giulio.ferrari@edis.it
+
+Homepage:
+www.gferrari.com
+
+Index:
+
+FILE			AUTHOR			LEVELS
+
+Alfabet.dat		Janneke Vercoulen	15
+Computer.dat		Giulio Ferrari		5
+Difficult.dat		Giulio Ferrari		5
+Flags.dat		Giulio Ferrari		5
+Mission.dat		Ash			5
+Newworlds1.dat		Nivio Sato		15
+Newworlds2.dat		Nivio Sato		15
+Object.dat		Giulio Ferrari		5
+Scott.dat		Scott Lantz		5
+Zigzag.dat		Ash			5
+
+ 
+-------
+
+Feel free to send me your own levels, I'll include them in this collection.
+
+

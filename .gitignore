@@ -67,3 +67,8 @@ __recovery/
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
+/src/neo-blip/neo-blip/x64/Debug
+/src/neo-blip/x64/Debug
+/src/neo-blip/.vs/neo-blip
+*.user
+*.filters
