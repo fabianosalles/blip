@@ -1,6 +1,7 @@
+#include <assert.h>
+
 #include "maps.h"
 #include "defs.h"
-#include <assert.h>
 
 
 __inline Map *MapCreate() {
@@ -91,25 +92,25 @@ void MapDraw(Map *map) {
 		for (int col=0; col < map->columns; col++) {
 			switch (rowdata[col])
 			{
-			case 'W': //wall
+			case Wall: 
 				DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, DARKGREEN);
 				break;
-			case 'H':
+			case Heart:
 				DrawCircle(
 					(col * CELL_SIZE)+(CELL_SIZE /2), 
 					(row * CELL_SIZE)+(CELL_SIZE /2), 
 					(CELL_SIZE /2), RED);
 				break;
-			case 'E':
+			case Energy:
 				DrawCircle(
 					(col * CELL_SIZE)+(CELL_SIZE /2), 
 					(row * CELL_SIZE)+(CELL_SIZE /2), 
 					(CELL_SIZE /2), YELLOW);
 				break;
-			case 'A': //water
+			case Water:
 				DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, BLUE);
 				break;
-			case 'X': //exit
+			case Exit :
 				DrawCircle(
 					(col * CELL_SIZE)+(CELL_SIZE /2), 
 					(row * CELL_SIZE)+(CELL_SIZE /2), 
@@ -118,8 +119,36 @@ void MapDraw(Map *map) {
 			default:
 				break;
 			}
-
 		}
+	}	
+}
+
+
+char MapGetContent(const Map *map, int layer, int row, int column) {
+	assert(map != NULL);
+	assert(layer < map->layerCount);
+	assert(row < map->rows);
+	assert(column < map->columns);
+
+	return map->layers[layer].data[row][column];	
+}
+
+
+GridCoord MapGetGridCoodAtPostion(Vector2 position) {
+	GridCoord coord;
+
+	if (position.x < 0.0f)  {
+		coord.col = -1;
 	}
-	
+	else {
+		coord.row = (position.y / (float)CELL_SIZE);
+	}
+		
+	if (position.y < 0.0f) {
+		coord.row = -1;
+	}
+	else {
+		coord.col = (position.x / (float)CELL_SIZE);
+	}
+	return coord;
 }

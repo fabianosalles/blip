@@ -1,5 +1,6 @@
 #pragma once
 
+#include "defs.h"
 #include <stdint.h>
 #include <raylib.h>
 
@@ -22,6 +23,13 @@ typedef struct Layer  {
 	struct Layer* next;
 } Layer;
 
+typedef enum {
+	Wall = 'W',
+	Heart = 'H',
+	Energy = 'E',
+	Water = 'A',
+	Exit = 'X'
+} MapContent;
 
 /// <summary>
 /// Creates a new, empty layer and adds it to map
@@ -29,10 +37,10 @@ typedef struct Layer  {
 Layer *MapAddNewLayer(Map *map);
 
 Map *MapCreate();
-
-void MapDrawGrid(Map *map, Color color);
-
-void MapDraw(Map *map);
-
 Map *CreateFirstMap();
+
+void MapDrawGrid(const Map *map, Color color);
+void MapDraw(const Map *map);
+char MapGetContent(const Map *map, int layer, int row, int column);
+GridCoord MapGetGridCoodAtPostion(Vector2 position);
 
