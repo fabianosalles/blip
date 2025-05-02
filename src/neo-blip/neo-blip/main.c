@@ -18,6 +18,7 @@ void Draw(float dt);
 
 int main(void) {
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NeoBlip");
+	HideCursor();
 	SetTargetFPS(60);
 
 	backbuffer = LoadRenderTexture(BACKBUFFER_WIDTH, BACKBUFFER_HEIGHT);	
@@ -55,6 +56,18 @@ void Update(float dt) {
 		game.settings.debug = !game.settings.debug;
 	}		
 
+	if (IsKeyDown(KEY_KP_ADD)) {
+		game.camera.zoom += 0.4f * dt;
+	}
+
+	if (IsKeyDown(KEY_KP_SUBTRACT)) {
+		game.camera.zoom -= 0.4f * dt;
+	}
+	if (IsKeyDown(KEY_KP_0)) {
+		game.camera.zoom = 1.0f;
+	}
+
+
 	PlayerUpdate(&game.player, game.map, dt);			
 }
 
@@ -66,6 +79,7 @@ void DrawDebugText() {
 	Vector2 gridPosition  = PlayerGetGridPosition(&game.player);	
 	DrawText(TextFormat("Grid   : %f.01, %f.01", gridPosition.x, gridPosition.y), 25, 55, 18, WHITE);	
 	DrawText(TextFormat("Grid   : %f, %f", trunc(gridPosition.x), trunc(gridPosition.y)), 25, 75, 18, WHITE);	
+	DrawText(TextFormat("Zoom   : %f.01", game.camera.zoom), 25, 95, 18, WHITE);	
 
 }
 
