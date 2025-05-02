@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "level-01.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "base_tiles.tsx": {
@@ -37,11 +38,12 @@
     "map.tileWidth": 8,
     "map.width": 29,
     "openFiles": [
+        "level-01.tmx"
     ],
     "project": "maps.tiled-project",
     "recentFiles": [
-        "level-01.tmj",
         "level-01.tmx",
+        "level-01.tmj",
         "base_tiles.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

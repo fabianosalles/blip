@@ -1,12 +1,13 @@
 #pragma once
 
-#include "defs.h"
 #include <stdint.h>
 #include <raylib.h>
+#include <stdbool.h>
+#include "textures.h"
 
 typedef struct Layer; 
 
-typedef struct Map {
+typedef struct {
 	uint8_t number;	
 	uint8_t energy;	
 	uint16_t rows;	
@@ -17,7 +18,7 @@ typedef struct Map {
 	struct Layer *layers;
 } Map;
 
-typedef struct Layer  {	
+typedef struct Layer {	
 	Map *map;		// this map this layer belongs
 	char **data;    
 	struct Layer* next;
@@ -28,8 +29,15 @@ typedef enum {
 	Heart = 'H',
 	Energy = 'E',
 	Water = 'A',
-	Exit = 'X'
+	Exit = 'X',
+	Free = 'F'
 } MapContent;
+
+typedef struct {
+	int row;
+	int col;
+} GridCoord;
+
 
 /// <summary>
 /// Creates a new, empty layer and adds it to map
@@ -40,7 +48,9 @@ Map *MapCreate();
 Map *CreateFirstMap();
 
 void MapDrawGrid(const Map *map, Color color);
-void MapDraw(const Map *map);
+void MapDraw(const Map *map, GameTextures *textures);
+bool MapCoordIsInGridBounds(const Map *map, const GridCoord *coord);
 char MapGetContent(const Map *map, int layer, int row, int column);
+
 GridCoord MapGetGridCoodAtPostion(Vector2 position);
 

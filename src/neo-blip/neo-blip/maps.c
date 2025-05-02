@@ -1,7 +1,10 @@
-#include <assert.h>
+#pragma once
 
-#include "maps.h"
+#include <assert.h>
+#include <stdbool.h>
 #include "defs.h"
+#include "maps.h"
+
 
 
 __inline Map *MapCreate() {
@@ -71,29 +74,46 @@ Map *CreateFirstMap() {
 	return map;
 }
 
-void MapDrawGrid(Map *map, Color color) {		
+void MapDrawGrid(const Map *map, Color color) {		
 	int mapW = CELL_SIZE * map->columns;
 	int mapH = CELL_SIZE * map->rows;
 	for (int row=1; row < map->rows; row++) {	
-		DrawLineEx((Vector2) { 0, row * CELL_SIZE }, (Vector2) { mapW, row * CELL_SIZE }, 1, color);
+		DrawLineEx(
+			(Vector2) { 0.f,  (float)(row * CELL_SIZE) }, 
+			(Vector2) { mapW, (float)(row * CELL_SIZE) }, 
+			1.0f, color);
 		for (int col=1; col < map->columns; col++) {
-			DrawLineEx((Vector2){col * CELL_SIZE, 0}, (Vector2){col * CELL_SIZE, mapH}, 1, color);	
+			DrawLineEx(
+				(Vector2){ (float)(col * CELL_SIZE), 0.0f }, 
+				(Vector2){ (float)(col * CELL_SIZE), mapH }, 
+				1.0f, color);	
 		}
 	}
 }
 
-void MapDraw(Map *map) {
+void MapDraw(const Map *map, GameTextures *textures) {
 	assert(map != NULL);
+	assert(textures != NULL);
 
 	Layer *layer = map->layers;
 
 	for (int row=0; row < map->rows; row++) {
 		char *rowdata = layer->data[row];
 		for (int col=0; col < map->columns; col++) {
+			//DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, (Color){132, 126, 136, 255 });
+			if ((row < map->rows-1) && (col < map->columns-1)) {
+				DrawTextureEx(textures->ground,
+						(Vector2){ (col* (float)CELL_SIZE), (row * (float)CELL_SIZE)}, 0.0f, 1.0f, WHITE);
+			}
 			switch (rowdata[col])
-			{
+			{			
+			case Free:				
+				//DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, (Color){132, 126, 136, 255 });
+				break;
 			case Wall: 
-				DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, DARKGREEN);
+				//DrawRectangle(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE, DARKGREEN);
+				DrawTextureEx(textures->wall,
+					(Vector2){ (col* (float)CELL_SIZE), (row * (float)CELL_SIZE)}, 0.0f, 1.0f, WHITE);
 				break;
 			case Heart:
 				DrawCircle(
@@ -129,10 +149,17 @@ char MapGetContent(const Map *map, int layer, int row, int column) {
 	assert(layer < map->layerCount);
 	assert(row < map->rows);
 	assert(column < map->columns);
-
+		
 	return map->layers[layer].data[row][column];	
 }
 
+
+bool MapCoordIsInGridBounds(const Map *map, const GridCoord *coord) {
+	return (
+		(coord->row >= 0 && coord->row < map->rows) &&
+		(coord->col >= 0 && coord->col < map->columns) 
+	);
+}
 
 GridCoord MapGetGridCoodAtPostion(Vector2 position) {
 	GridCoord coord;

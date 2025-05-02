@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <raylib.h>
+
 #include "maps.h"
 
 typedef struct Player {

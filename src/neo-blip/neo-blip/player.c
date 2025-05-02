@@ -3,7 +3,6 @@
 #include <math.h>
 #include <raylib.h>
 #include <stdint.h>
-
 #include "defs.h"
 #include "player.h"
 
@@ -11,21 +10,20 @@ static Vector2 _playerGridPosition = {0};
 
 
 void PlayerDraw(Player *player) {	
-	DrawCircle(
-		player->position.x,
-		player->position.y,
+	DrawCircleV(
+		(Vector2){ player->position.x, player->position.y },
 		player->radius,
 		BLUE
 	);
 	
 	//collision 
-	DrawRectangleLines(
+	/*DrawRectangleLines(
 		player->boundingBox.x,
 		player->boundingBox.y,
 		player->boundingBox.width,
 		player->boundingBox.height,
 		GREEN		
-	);	
+	);	*/
 }
 
 void PlayerUpdateBBox(Player *player) {	
@@ -57,11 +55,8 @@ void PlayerUpdate(Player *player, Map *map, float dt) {
 			player->position.x, 
 			player->position.y - player->radius, 
 		});
-	
-		//is in-bounds?
-		if ((topCell.row >= 0 && topCell.row < map->rows) &&
-			(topCell.col >= 0 && topCell.col < map->columns) ) {
-
+			
+		if (MapCoordIsInGridBounds(map, &topCell)) {
 			mapContent = MapGetContent(map, 0, topCell.row, topCell.col);
 			if (mapContent == Wall) {
 				player->position.y = (topCell.row * CELL_SIZE) + CELL_SIZE + player->radius;
@@ -71,18 +66,15 @@ void PlayerUpdate(Player *player, Map *map, float dt) {
 
 	// check for left wall collisions
 	if (xDirection < 0) {
-		GridCoord left = MapGetGridCoodAtPostion((Vector2){ 
+		GridCoord leftCell = MapGetGridCoodAtPostion((Vector2){ 
 			player->position.x - player->radius, 
 			player->position.y  
 		});
 
-		//is in-bounds?
-		if ((left.row >= 0 && left.row < map->rows) &&
-			(left.col >= 0 && left.col < map->columns) ) {
-
-			mapContent = MapGetContent(map, 0, left.row, left.col);
+		if (MapCoordIsInGridBounds(map, &leftCell)) {
+			mapContent = MapGetContent(map, 0, leftCell.row, leftCell.col);
 			if (mapContent == Wall) {
-				player->position.x = (left.col * CELL_SIZE) + CELL_SIZE + player->radius;
+				player->position.x = (leftCell.col * CELL_SIZE) + CELL_SIZE + player->radius;
 			}
 		}
 	}
@@ -94,10 +86,7 @@ void PlayerUpdate(Player *player, Map *map, float dt) {
 			player->position.y + player->radius, 
 		});
 				
-		//is in-bounds?
-		if ((bottomCell.row >= 0 && bottomCell.row < map->rows) &&
-			(bottomCell.col >= 0 && bottomCell.col < map->columns) ) {
-
+		if (MapCoordIsInGridBounds(map, &bottomCell)) {
 			mapContent = MapGetContent(map, 0, bottomCell.row, bottomCell.col);
 			if (mapContent == Wall) {
 				player->position.y = (bottomCell.row * CELL_SIZE) - player->radius;
@@ -113,9 +102,7 @@ void PlayerUpdate(Player *player, Map *map, float dt) {
 		});
 				
 		//is in-bounds?
-		if ((rightCell.row >= 0 && rightCell.row < map->rows) &&
-			(rightCell.col >= 0 && rightCell.col < map->columns) ) {
-
+		if (MapCoordIsInGridBounds(map, &rightCell)) {
 			mapContent = MapGetContent(map, 0, rightCell.row, rightCell.col);
 			if (mapContent == Wall) {
 				player->position.x = (rightCell.col * CELL_SIZE) - player->radius;

@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #define BACKBUFFER_WIDTH 640
 #define BACKBUFFER_HEIGHT 480
@@ -10,9 +10,3 @@
 #define CELL_SIZE 16
 
 #define PLAYER_INICIAL_SPEED (5.0F * CELL_SIZE)
-
-typedef struct {
-	int row;
-	int col;
-} GridCoord;
-
