@@ -20,3 +20,7 @@ typedef struct Game {
 	GameTextures textures;
 } Game;
 
+
+
+void GameUpdate(Game *game, float dt);
+void GameRender(const Game *game);

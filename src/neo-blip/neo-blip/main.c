@@ -14,7 +14,7 @@ Game game = {
 
 
 void Update(float dt);
-void Draw(float dt);
+void Draw();
 
 int main(void) {
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "NeoBlip");
@@ -43,7 +43,6 @@ int main(void) {
 		Draw(dt);		
 	}
 	CloseWindow();
-
 	UnloadTexture(game.textures.wall);
 	UnloadTexture(game.textures.ground);
 	return 0;
@@ -51,24 +50,7 @@ int main(void) {
 
 
 void Update(float dt) {	
-
-	if (IsKeyPressed(KEY_F2)) {
-		game.settings.debug = !game.settings.debug;
-	}		
-
-	if (IsKeyDown(KEY_KP_ADD)) {
-		game.camera.zoom += 0.4f * dt;
-	}
-
-	if (IsKeyDown(KEY_KP_SUBTRACT)) {
-		game.camera.zoom -= 0.4f * dt;
-	}
-	if (IsKeyDown(KEY_KP_0)) {
-		game.camera.zoom = 1.0f;
-	}
-
-
-	PlayerUpdate(&game.player, game.map, dt);			
+	GameUpdate(&game, dt);	
 }
 
 
@@ -80,20 +62,15 @@ void DrawDebugText() {
 	DrawText(TextFormat("Grid   : %f.01, %f.01", gridPosition.x, gridPosition.y), 25, 55, 18, WHITE);	
 	DrawText(TextFormat("Grid   : %f, %f", trunc(gridPosition.x), trunc(gridPosition.y)), 25, 75, 18, WHITE);	
 	DrawText(TextFormat("Zoom   : %f.01", game.camera.zoom), 25, 95, 18, WHITE);	
-
 }
 
-void Draw(float dt) {
+void Draw() {
 	game.camera.target = game.player.position;
 	// draw on backbuffer
     BeginTextureMode(backbuffer);
 		BeginMode2D(game.camera);
-			ClearBackground((Color){192, 192, 192});
-			MapDraw(game.map, &game.textures);	
-			if (game.settings.debug) {
-				MapDrawGrid(game.map, (Color){0xFF, 0xFF, 0xFF, 120});
-			}
-			PlayerDraw(&game.player);			
+			ClearBackground(BLACK);
+			GameRender(&game);			
 		EndMode2D();
     EndTextureMode();   
 		          

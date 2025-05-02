@@ -39,10 +39,10 @@ void PlayerUpdate(Player *player, Map *map, float dt) {
 	int8_t xDirection = 0;
 	int8_t yDirection = 0;
 
-	if (IsKeyDown(KEY_UP))   yDirection -= 1;
-	if (IsKeyDown(KEY_DOWN)) yDirection +=  1;
-	if (IsKeyDown(KEY_LEFT)) xDirection -=  1;
-	if (IsKeyDown(KEY_RIGHT)) xDirection +=  1;
+	if (IsKeyDown(KEY_UP)   || IsKeyDown(KEY_W)) yDirection -= 1;
+	if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) yDirection +=  1;
+	if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) xDirection -=  1;
+	if (IsKeyDown(KEY_RIGHT)|| IsKeyDown(KEY_D)) xDirection +=  1;
 
 	// move the player	
 	player->position.x += (player->speed * dt * xDirection);

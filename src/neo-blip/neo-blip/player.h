@@ -9,8 +9,8 @@ typedef struct Player {
 	Vector2 position;
 	float radius;
 	float speed;
-	Rectangle boundingBox;
 	uint8_t energy;	
+	Rectangle boundingBox;
 } Player;
 
 
